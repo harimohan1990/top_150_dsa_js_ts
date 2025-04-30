@@ -86,7 +86,126 @@
 ---
 
 ### Linked List
-- Linked List Cycle  
+- Linked List Cycle
+### js 
+var hasCycle = function(head) {
+  let fast = head;
+  let slow = head;
+
+  while (fast && fast.next) {
+    fast = fast.next.next;
+    slow = slow.next;
+    if (fast === slow) return true;
+  }
+
+  return false;
+};
+
+### ts 
+
+
+Here’s the **TypeScript version** of the cycle detection function with a step-by-step explanation in comments:
+
+```ts
+class ListNode {
+  val: number;
+  next: ListNode | null;
+  constructor(val: number, next: ListNode | null = null) {
+    this.val = val;
+    this.next = next;
+  }
+}
+
+function hasCycle(head: ListNode | null): boolean {
+  let slow: ListNode | null = head;
+  let fast: ListNode | null = head;
+
+  while (fast && fast.next) {
+    slow = slow!.next;
+    fast = fast.next.next;
+    if (slow === fast) return true;
+  }
+
+  return false;
+}
+```
+
+### Example:
+```ts
+const nodeA = new ListNode(1);
+const nodeB = new ListNode(2);
+const nodeC = new ListNode(3);
+const nodeD = new ListNode(4);
+
+nodeA.next = nodeB;
+nodeB.next = nodeC;
+nodeC.next = nodeD;
+nodeD.next = nodeB; // cycle here
+
+console.log(hasCycle(nodeA)); // true
+```
+
+### ✅ Time and Space Complexity of `hasCycle` (Floyd’s Algorithm):
+
+- **Time Complexity:** `O(n)`  
+  - In the worst case, `fast` and `slow` traverse the entire list.
+  - If there’s a cycle, `fast` catches up to `slow` in at most `n` steps.
+
+- **Space Complexity:** `O(1)`  
+  - No extra data structures are used — just two pointers.
+
+This makes Floyd’s algorithm optimal for cycle detection in linked lists.
+
+Let’s walk through an example to explain how the **Floyd's Cycle Detection** algorithm works.
+
+### Example:
+
+Linked List with a cycle:
+```
+A → B → C → D → E
+          ↑     ↓
+          ← ← ← 
+```
+In memory: `E.next = C` creates a cycle back to C.
+
+---
+
+### Step-by-step:
+
+- **Initial Pointers:**
+  - `slow = A`
+  - `fast = A`
+
+---
+
+### Iteration 1:
+- `slow = B` (1 step)
+- `fast = C` (2 steps)
+
+---
+
+### Iteration 2:
+- `slow = C`
+- `fast = E`
+
+---
+
+### Iteration 3:
+- `slow = D`
+- `fast = D`
+
+---
+
+### 🎯 At this point: `slow === fast` → **cycle detected**, return `true`.
+
+---
+
+### Key Idea:
+- `slow` moves one node at a time.
+- `fast` moves two nodes at a time.
+- If there's a cycle, `fast` will eventually catch up to `slow`.
+
+
 - Add Two Numbers  
 - Merge Two Sorted Lists  
 - Copy List with Random Pointer  
